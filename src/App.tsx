@@ -10,122 +10,149 @@ export default function App() {
   const [selectedFolderId, setSelectedFolderId] = useState<string>(
     initialFolders[0].id
   );
+  const handleRenameFolder = (id: string, newName: string) => {
+    setFolders((prev) =>
+      prev.map((folder) =>
+        folder.id === id ? { ...folder, name: newName } : folder
+      )
+    );
+  };
 
-const handleDragEnd = (event: DragEndEvent) => {
-  const { active, over } = event;
+  const handleRenameProject = (id: string, newName: string) => {
+    setFolders((prev) =>
+      prev.map((folder) => ({
+        ...folder,
+        projects: folder.projects.map((p) =>
+          p.id === id ? { ...p, name: newName } : p
+        ),
+      }))
+    );
+  };
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    const activeEl = document.activeElement;
 
-  if (!over) {
-    toast.error(`Project move cancelled.`, {
-      duration: 3000,
-      style: {
-        background: "black",
-        color: "white",
-      },
+    // ✅ Cancel drag if it came from any edit interaction
+    if (
+      activeEl?.tagName === "INPUT" ||
+      activeEl?.closest("[data-editing]") || // check for any editing UI
+      document.querySelector("[data-editing]:focus")
+    ) {
+      return; // 🔒 prevent accidental drag + toast
+    }
+
+    if (!over) {
+      toast.error(`Project move cancelled.`, {
+        duration: 3000,
+        style: {
+          background: "black",
+          color: "white",
+        },
+      });
+      return;
+    }
+
+    const projectId = active.id as string;
+    const targetFolderId = over.id as string;
+
+    if (
+      !projectId.startsWith("project") ||
+      !targetFolderId.startsWith("folder")
+    ) {
+      toast.error(`Project move cancelled.`, {
+        duration: 3000,
+        style: {
+          background: "black",
+          color: "white",
+        },
+      });
+      return;
+    }
+
+    // ✅ FIND the folder where project currently lives
+    const sourceFolder = folders.find((folder) =>
+      folder.projects.some((project) => project.id === projectId)
+    );
+
+    if (!sourceFolder) {
+      toast.error(`Project move cancelled.`, {
+        duration: 3000,
+        style: {
+          background: "black",
+          color: "white",
+        },
+      });
+      return;
+    }
+
+    // ✅ FIND the actual project details
+    const project = sourceFolder.projects.find((p) => p.id === projectId);
+
+    if (!project) {
+      toast.error(`Project move cancelled.`, {
+        duration: 3000,
+        style: {
+          background: "black",
+          color: "white",
+        },
+      });
+      return;
+    }
+
+    // 🛑 If user dropped into SAME folder → No need to move
+    if (sourceFolder.id === targetFolderId) {
+      toast.error(`Project "${project.name}" move cancelled.`, {
+        duration: 3000,
+        style: {
+          background: "black",
+          color: "white",
+        },
+      });
+      return;
+    }
+
+    // ✅ Otherwise move project
+    let movedProject: Project | undefined;
+
+    const updatedFolders = folders.map((folder) => {
+      const filteredProjects = folder.projects.filter((project) => {
+        if (project.id === projectId) {
+          movedProject = project;
+          return false;
+        }
+        return true;
+      });
+      return { ...folder, projects: filteredProjects };
     });
-    return;
-  }
 
-  const projectId = active.id as string;
-  const targetFolderId = over.id as string;
+    if (movedProject) {
+      const finalFolders = updatedFolders.map((folder) => {
+        if (folder.id === targetFolderId) {
+          return { ...folder, projects: [...folder.projects, movedProject!] };
+        }
+        return folder;
+      });
 
-  if (
-    !projectId.startsWith("project") ||
-    !targetFolderId.startsWith("folder")
-  ) {
-    toast.error(`Project move cancelled.`, {
-      duration: 3000,
-      style: {
-        background: "black",
-        color: "white",
-      },
-    });
-    return;
-  }
+      setFolders(finalFolders);
+      setSelectedFolderId(targetFolderId);
 
-  // ✅ FIND the folder where project currently lives
-  const sourceFolder = folders.find((folder) =>
-    folder.projects.some((project) => project.id === projectId)
-  );
-
-  if (!sourceFolder) {
-    toast.error(`Project move cancelled.`, {
-      duration: 3000,
-      style: {
-        background: "black",
-        color: "white",
-      },
-    });
-    return;
-  }
-
-  // ✅ FIND the actual project details
-  const project = sourceFolder.projects.find((p) => p.id === projectId);
-
-  if (!project) {
-    toast.error(`Project move cancelled.`, {
-      duration: 3000,
-      style: {
-        background: "black",
-        color: "white",
-      },
-    });
-    return;
-  }
-
-  // 🛑 If user dropped into SAME folder → No need to move
-  if (sourceFolder.id === targetFolderId) {
-    toast.error(`Project "${project.name}" move cancelled.`, {
-      duration: 3000,
-      style: {
-        background: "black",
-        color: "white",
-      },
-    });
-    return;
-  }
-
-  // ✅ Otherwise move project
-  let movedProject: Project | undefined;
-
-  const updatedFolders = folders.map((folder) => {
-    const filteredProjects = folder.projects.filter((project) => {
-      if (project.id === projectId) {
-        movedProject = project;
-        return false;
-      }
-      return true;
-    });
-    return { ...folder, projects: filteredProjects };
-  });
-
-  if (movedProject) {
-    const finalFolders = updatedFolders.map((folder) => {
-      if (folder.id === targetFolderId) {
-        return { ...folder, projects: [...folder.projects, movedProject!] };
-      }
-      return folder;
-    });
-
-    setFolders(finalFolders);
-    setSelectedFolderId(targetFolderId);
-
-    toast.success(`Project "${movedProject.name}" moved successfully!`, {
-      duration: 3000,
-      style: {
-        background: "black",
-        color: "white",
-      },
-    });
-  } else {
-    toast.error(`Project move cancelled.`, {
-      duration: 3000,
-      style: {
-        background: "black",
-        color: "white",
-      },
-    });
-  }
-};
+      toast.success(`Project "${movedProject.name}" moved successfully!`, {
+        duration: 3000,
+        style: {
+          background: "black",
+          color: "white",
+        },
+      });
+    } else {
+      toast.error(`Project move cancelled.`, {
+        duration: 3000,
+        style: {
+          background: "black",
+          color: "white",
+        },
+      });
+    }
+  };
 
   const selectedFolder = folders.find(
     (folder) => folder.id === selectedFolderId
@@ -139,8 +166,13 @@ const handleDragEnd = (event: DragEndEvent) => {
           folders={folders}
           selectedFolderId={selectedFolderId}
           onSelectFolder={setSelectedFolderId}
+          onRename={handleRenameFolder}
         />
-        <Dashboard folder={selectedFolder} />
+
+        <Dashboard
+          folder={selectedFolder}
+          onRenameProject={handleRenameProject}
+        />
       </div>
     </DndContext>
   );
