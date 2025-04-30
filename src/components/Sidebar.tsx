@@ -14,7 +14,7 @@ export default function Sidebar({
   onRename,
 }: SidebarProps) {
   return (
-    <div className="w-64 bg-black w-[280px] text-white p-6 flex flex-col gap-4">
+    <div className="bg-black w-full sm:w-[280px] text-white p-4 sm:p-6 flex flex-col gap-4 sm:relative z-10">
       <h2 className="text-xl font-bold text-red-500">Folders</h2>
       {folders.map((folder) => (
         <SidebarFolderItem

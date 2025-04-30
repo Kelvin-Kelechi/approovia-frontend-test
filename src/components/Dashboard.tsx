@@ -4,27 +4,27 @@ import ProjectCard from "./ProjectCard";
 
 interface DashboardProps {
   folder: Folder;
-  onRenameProject: (id: string, newName: string) => void; 
+  onRenameProject: (id: string, newName: string) => void;
 }
 
 export default function Dashboard({ folder, onRenameProject }: DashboardProps) {
-  const { setNodeRef, isOver } = useDroppable({
-    id: folder.id,
-  });
+  const { setNodeRef, isOver } = useDroppable({ id: folder.id });
 
   return (
     <div
       ref={setNodeRef}
-      className={`flex-1 p-10 transition-colors ${
+      className={`flex-1 p-4 sm:p-6 lg:p-10 overflow-y-auto transition-colors ${
         isOver ? "bg-red-50" : "bg-gray-50"
       }`}
     >
-      <h2 className="text-2xl font-bold text-black mb-8">{folder.name}</h2>
+      <h2 className="text-2xl font-bold text-black mb-4 sm:mb-6">
+        {folder.name}
+      </h2>
 
       {folder.projects.length === 0 ? (
         <p className="text-gray-400">No projects in this folder.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className=" grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
           {folder.projects.map((project) => (
             <ProjectCard
               key={project.id}
