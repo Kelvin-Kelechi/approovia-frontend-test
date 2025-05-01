@@ -55,25 +55,26 @@ Visit **`http://localhost:5173/`** in your browser.
 ## 🗂️ Project Structure
 
 public/
-└── vite.svg
+    └── vite.svg
 src/
-├── assets/
-└── react.svg
-├── components/
-├── Dashboard.tsx
-├── FolderCard.tsx
-├── ProjectCard.tsx
-├── Sidebar.tsx
-└── SidebarFolderItem.tsx
-├── data/
-└── folders.ts
-├── types/
-└── index.ts
-├── App.css
-├── App.tsx
-├── index.css
-├── main.tsx
-└── vite-env.d.ts
+    ├── assets/
+        └── react.svg
+    ├── components/
+        ├── Dashboard.tsx
+        ├── EmptyState.tsx
+        ├── ProjectCard.tsx
+        ├── Sidebar.tsx
+        └── SidebarFolderItem.tsx
+    ├── data/
+        └── folders.ts
+    ├── types/
+        └── index.ts
+    ├── utils/
+        └── dragHandlers.ts.ts
+    ├── App.tsx
+    ├── index.css
+    ├── main.tsx
+    └── vite-env.d.ts
 .gitignore
 eslint.config.js
 index.html
@@ -81,6 +82,7 @@ package-lock.json
 package.json
 postcss.config.js
 README.md
+structure.txt
 tailwind.config.js
 tsconfig.app.json
 tsconfig.json
