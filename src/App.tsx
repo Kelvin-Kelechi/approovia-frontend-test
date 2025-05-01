@@ -135,7 +135,7 @@ export default function App() {
             />
           </svg>
         </button>
-        <h1 className="text-lg font-semibold">Project Dashboard</h1>
+        <h1 className="text-lg font-semibold">Approovia</h1>
       </div>
 
       <div className="flex flex-col sm:flex-row min-h-screen relative">
