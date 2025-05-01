@@ -54,6 +54,7 @@ Visit **`http://localhost:5173/`** in your browser.
 
 ## 🗂️ Project Structure
 
+```text
 public/
     └── vite.svg
 src/
@@ -75,18 +76,18 @@ src/
     ├── index.css
     ├── main.tsx
     └── vite-env.d.ts
-.gitignore
-eslint.config.js
-index.html
-package-lock.json
-package.json
-postcss.config.js
-README.md
-structure.txt
-tailwind.config.js
-tsconfig.app.json
-tsconfig.json
-tsconfig.node.json
+.gitignore  
+eslint.config.js  
+index.html  
+package-lock.json  
+package.json  
+postcss.config.js  
+README.md  
+structure.txt  
+tailwind.config.js  
+tsconfig.app.json  
+tsconfig.json  
+tsconfig.node.json  
 vite.config.ts
 
 ## 🔗 Live Demo
