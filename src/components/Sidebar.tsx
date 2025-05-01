@@ -15,7 +15,10 @@ export default function Sidebar({
 }: SidebarProps) {
   return (
     <div className="bg-black w-full sm:w-[280px] text-white p-4 sm:p-6 flex flex-col gap-4 sm:relative z-10">
-      <h2 className="text-xl font-bold text-red-500">Folders</h2>
+      <div className="p-4 text-xl text-center border-b border-gray-700 mb-4 font-bold">
+        <h2 className="text-xl font-bold">Approovia</h2>
+      </div>
+
       {folders.map((folder) => (
         <SidebarFolderItem
           key={folder.id}
