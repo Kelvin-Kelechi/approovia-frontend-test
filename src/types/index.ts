@@ -8,3 +8,4 @@ export interface Folder {
   name: string;
   projects: Project[];
 }
+

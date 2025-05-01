@@ -53,14 +53,6 @@ export default function ProjectCard({
     `}
     >
       <div className="flex justify-between items-center mb-4">
-        {/* {!isOverlay && (
-          <RxDragHandleDots2
-            size={20}
-            className="cursor-move text-gray-400"
-            {...(!isEditing ? listeners : {})}
-            {...(!isEditing ? attributes : {})}
-          />
-        )}{" "} */}
         <RxDragHandleDots2
           size={20}
           className="cursor-move text-gray-400"

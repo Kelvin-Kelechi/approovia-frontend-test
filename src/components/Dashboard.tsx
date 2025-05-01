@@ -1,6 +1,7 @@
 import { useDroppable } from "@dnd-kit/core";
 import { Folder } from "../types";
 import ProjectCard from "./ProjectCard";
+import EmptyState from "./EmptyState";
 
 interface DashboardProps {
   folder: Folder;
@@ -22,7 +23,7 @@ export default function Dashboard({ folder, onRenameProject }: DashboardProps) {
       </h2>
 
       {folder.projects.length === 0 ? (
-        <p className="text-gray-400">No projects in this folder.</p>
+        <EmptyState />
       ) : (
         <div className=" grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
           {folder.projects.map((project) => (

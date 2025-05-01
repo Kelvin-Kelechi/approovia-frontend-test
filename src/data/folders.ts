@@ -2,27 +2,27 @@ import { Folder } from "../types";
 
 export const initialFolders: Folder[] = [
   {
-    id: "folder-1",
-    name: "Frontend Projects",
+    id: "folder-ecommerce",
+    name: "E-Commerce",
     projects: [
-      { id: "project-1", name: "Landing Page" },
-      { id: "project-2", name: "Dashboard UI" },
+      { id: "project-storefront", name: "Online Storefront UI" },
+      { id: "project-cart", name: "Shopping Cart System" },
     ],
   },
   {
-    id: "folder-2",
-    name: "Backend Projects",
+    id: "folder-healthtech",
+    name: "HealthTech",
     projects: [
-      { id: "project-3", name: "API Development" },
-      { id: "project-4", name: "Database Design" },
+      { id: "project-patient-portal", name: "Patient Portal" },
+      { id: "project-telemedicine", name: "Telemedicine Chat App" },
     ],
   },
   {
-    id: "folder-3",
-    name: "Mobile Projects",
+    id: "folder-fintech",
+    name: "FinTech",
     projects: [
-      { id: "project-5", name: "iOS App" },
-      { id: "project-6", name: "Android App" },
+      { id: "project-wallet", name: "Digital Wallet" },
+      { id: "project-invest", name: "Investment Tracker" },
     ],
   },
 ];

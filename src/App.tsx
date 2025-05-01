@@ -6,21 +6,21 @@ import { initialFolders } from "./data/folders";
 import { Folder, Project } from "./types";
 import { Toaster, toast } from "react-hot-toast";
 import ProjectCard from "./components/ProjectCard";
+import { moveProjectToFolder } from "./utils/dragHandlers.ts";
 
 export default function App() {
   const [folders, setFolders] = useState<Folder[]>(initialFolders);
   const [selectedFolderId, setSelectedFolderId] = useState<string>(
     initialFolders[0].id
   );
-    const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [showSidebar, setShowSidebar] = useState(false);
 
-  // Responsive: auto-show sidebar on large screen
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 640) setShowSidebar(true);
     };
-    handleResize(); // init
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -72,58 +72,34 @@ export default function App() {
       !projectId.startsWith("project") ||
       !targetFolderId.startsWith("folder")
     ) {
-      toast.error(`Project move cancelled.`, {
+      toast.error(`Invalid drag target.`, {
         duration: 3000,
         style: { background: "black", color: "white" },
       });
       return;
     }
 
-    const sourceFolder = folders.find((folder) =>
-      folder.projects.some((project) => project.id === projectId)
+    const { updated, movedProject, error } = moveProjectToFolder(
+      folders,
+      projectId,
+      targetFolderId
     );
-    if (!sourceFolder) return;
 
-    const project = sourceFolder.projects.find((p) => p.id === projectId);
-    if (!project) return;
-
-    if (sourceFolder.id === targetFolderId) {
-      toast.error(`Project "${project.name}" move cancelled.`, {
+    if (error) {
+      toast.error(error, {
         duration: 3000,
         style: { background: "black", color: "white" },
       });
       return;
     }
 
-    let movedProject: Project | undefined;
+    setFolders(updated);
+    setSelectedFolderId(targetFolderId);
 
-    const updatedFolders = folders.map((folder) => {
-      const filteredProjects = folder.projects.filter((project) => {
-        if (project.id === projectId) {
-          movedProject = project;
-          return false;
-        }
-        return true;
-      });
-      return { ...folder, projects: filteredProjects };
+    toast.success(`Project "${movedProject!.name}" moved successfully!`, {
+      duration: 3000,
+      style: { background: "black", color: "white" },
     });
-
-    if (movedProject) {
-      const finalFolders = updatedFolders.map((folder) => {
-        if (folder.id === targetFolderId) {
-          return { ...folder, projects: [...folder.projects, movedProject!] };
-        }
-        return folder;
-      });
-
-      setFolders(finalFolders);
-      setSelectedFolderId(targetFolderId);
-
-      toast.success(`Project "${movedProject.name}" moved successfully!`, {
-        duration: 3000,
-        style: { background: "black", color: "white" },
-      });
-    }
   };
 
   const selectedFolder = folders.find(
@@ -142,7 +118,6 @@ export default function App() {
     >
       <Toaster position="top-center" reverseOrder={false} />
 
-      {/* Mobile navbar toggle */}
       <div className="sm:hidden flex items-center justify-between p-4 bg-black text-white">
         <button onClick={() => setShowSidebar((prev) => !prev)}>
           <svg
@@ -160,25 +135,22 @@ export default function App() {
             />
           </svg>
         </button>
-        <h1 className="text-lg font-semibold">My Projects</h1>
+        <h1 className="text-lg font-semibold">Project Dashboard</h1>
       </div>
 
-      {/* Layout */}
       <div className="flex flex-col sm:flex-row min-h-screen relative">
-        {/* Sidebar: visible on desktop or toggled on mobile */}
         {showSidebar && (
           <Sidebar
             folders={folders}
             selectedFolderId={selectedFolderId}
             onSelectFolder={(id) => {
               setSelectedFolderId(id);
-              if (window.innerWidth < 640) setShowSidebar(false); // close on mobile
+              if (window.innerWidth < 640) setShowSidebar(false);
             }}
             onRename={handleRenameFolder}
           />
         )}
 
-        {/* Main dashboard */}
         <Dashboard
           folder={selectedFolder}
           onRenameProject={handleRenameProject}

@@ -5,7 +5,7 @@ interface SidebarProps {
   folders: Folder[];
   selectedFolderId: string;
   onSelectFolder: (id: string) => void;
-  onRename: (id: string, newName: string) => void; // ✅ add this
+  onRename: (id: string, newName: string) => void;
 }
 export default function Sidebar({
   folders,
@@ -22,7 +22,7 @@ export default function Sidebar({
           folder={folder}
           isSelected={folder.id === selectedFolderId}
           onClick={() => onSelectFolder(folder.id)}
-          onRename={onRename} // ✅ add this
+          onRename={onRename}
         />
       ))}
     </div>
