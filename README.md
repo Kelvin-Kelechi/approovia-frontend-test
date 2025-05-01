@@ -14,6 +14,7 @@ A modern, responsive drag-and-drop dashboard built with React, Typescript, Tailw
 ## 🚀 Features
 
 - Drag-and-drop projects between folders on both mobile and desktop
+- Tap and hold the drag icon to move the project.(Or on desktop, click and drag the icon.)
 - Rename projects and folders inline
 - Mobile-responsive layout with sidebar toggle
 - Visual feedback and drag overlay
