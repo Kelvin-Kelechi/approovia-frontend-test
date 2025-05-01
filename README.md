@@ -56,40 +56,43 @@ Visit **`http://localhost:5173/`** in your browser.
 
 ```text
 public/
-    └── vite.svg
+└── vite.svg
+
 src/
-    ├── assets/
-        └── react.svg
-    ├── components/
-        ├── Dashboard.tsx
-        ├── EmptyState.tsx
-        ├── ProjectCard.tsx
-        ├── Sidebar.tsx
-        └── SidebarFolderItem.tsx
-    ├── data/
-        └── folders.ts
-    ├── types/
-        └── index.ts
-    ├── utils/
-        └── dragHandlers.ts.ts
-    ├── App.tsx
-    ├── index.css
-    ├── main.tsx
-    └── vite-env.d.ts
+├── assets/
+│   └── react.svg                      # Static assets
+├── components/                        # UI components
+│   ├── Dashboard.tsx                  # Displays projects in selected folder
+│   ├── EmptyState.tsx                 # Shown when a folder has no projects
+│   ├── ProjectCard.tsx                # Draggable project item with rename
+│   ├── Sidebar.tsx                    # Sidebar with folders
+│   └── SidebarFolderItem.tsx         # Folder item in sidebar
+├── data/
+│   └── folders.ts                     # Initial folder/project data
+├── types/
+│   └── index.ts                       # TypeScript interfaces (Folder, Project)
+├── utils/
+│   └── dragHandlers.ts                # Extracted drag-and-drop logic
+├── App.tsx                            # Main app logic and layout
+├── index.css                          # Tailwind and base styles
+├── main.tsx                           # Entry point
+└── vite-env.d.ts                      # Type declarations
+
 .gitignore  
-eslint.config.js  
-index.html  
+eslint.config.js                       # ESLint config
+index.html                             # HTML entry
 package-lock.json  
 package.json  
 postcss.config.js  
-README.md  
-structure.txt  
-tailwind.config.js  
+README.md                              # Project documentation
+structure.txt                          # File tree outline
+tailwind.config.js                     # Tailwind config
 tsconfig.app.json  
-tsconfig.json  
+tsconfig.json                          # TypeScript config
 tsconfig.node.json  
-vite.config.ts
+vite.config.ts                         # Vite configuration
 
+```
 ## 🔗 Live Demo
 
-Visit http://localhost:5173/
+Visit **`https://approovia-frontend-test.vercel.app/`**
